@@ -53,17 +53,23 @@
     <!-- 
            购物车
     -->
-    <div v-if="restaurant_data" class="left">
+    <div ref="left" v-if="restaurant_data" class="left">
       <ul>
-        <li :key="index" v-for="(value,index) in restaurant_data">
+        <li
+          ref="left_son"
+          :class="title_index==index?'title_name':''"
+          @click.stop="scroll(index)"
+          :key="index"
+          v-for="(value,index) in restaurant_data"
+        >
           <img v-if="value.icon_url" :src="'https://fuss10.elemecdn.com/'+value.icon_url+'.jpeg'">
           <span>{{value.name}}</span>
         </li>
       </ul>
     </div>
-    <div v-if="restaurant_data" class="right">
-      <ul>
-        <li :key="index" v-for="(value,index) in restaurant_data">
+    <div ref="right" v-if="restaurant_data" class="right">
+      <ul @mousewheel="imgScroll">
+        <li ref="right_son" :key="index" v-for="(value,index) in restaurant_data">
           <header>
             <section>
               <strong>{{value.name}}</strong>
@@ -164,10 +170,39 @@ export default {
       pei: null,
       least: null,
       aprear_prompt1: false,
-      car: false
+      car: false,
+      title_index: 0
     };
   },
   methods: {
+    imgScroll() {
+    let clientHeight = this.$refs.left.clientHeight
+   let ping= (this.$refs.left.scrollHeight-clientHeight+50)/(this.$refs.left_son.length-1)
+ 
+      for (let t = 0; t < this.$refs.right_son.length; t++) {
+     
+       
+        if (t != 0) {
+        
+          if (
+            this.$refs.right_son[t-1].offsetTop-164 < this.$refs.right.scrollTop&&this.$refs.right.scrollTop<this.$refs.right_son[t].offsetTop-164
+          ) {
+              
+        this.$refs.left.scrollTop=ping*(t-1)
+        // console.log(this.$refs.left.scrollTop,'truescroll')
+           this.title_index=t-1;
+              // break
+          } 
+        } else {
+
+        }
+      }
+    },
+    scroll(index) {
+      this.$refs.right.scrollTop =
+        this.$refs.right.children[0].children[index].offsetTop - 192;
+      this.title_index = index;
+    },
     show_car() {
       this.car = !this.car;
     },
@@ -201,7 +236,10 @@ export default {
       });
     },
     submit() {
-     this.$store.state.cart_datas = localStorage.setItem("car_data", JSON.stringify(this.foods));
+      this.$store.state.cart_datas = localStorage.setItem(
+        "car_data",
+        JSON.stringify(this.foods)
+      );
       this.$router.push({
         name: "confirmOrder",
         params: {
@@ -337,6 +375,11 @@ export default {
 };
 </script>
 <style scoped>
+.title_name {
+  background: white;
+  box-sizing: border-box;
+  border-left: 0.03rem solid blue;
+}
 .caozuo li > section:nth-child(1) {
   flex: 4;
   overflow: hidden;
@@ -687,7 +730,6 @@ footer {
   box-sizing: border-box;
   padding: 0.25rem 0.08rem;
   border-bottom: 0.01rem solid #ededed;
-  border-left: 0.05rem solid #f8f8f8;
   overflow: hidden;
   overflow: hidden; /*自动隐藏文字*/
   text-overflow: ellipsis; /*文字隐藏后添加省略号*/
@@ -713,5 +755,7 @@ footer {
 .shopping {
   flex: 1;
   display: flex;
+  box-sizing: border-box;
+  padding-bottom: 0.5rem;
 }
 </style>
