@@ -18,7 +18,7 @@
         <span class="success_city">当前定位城市:</span>
         <span class="erro_city">定位不准时，请在城市列表中选择</span>
       </div>
-      <router-link :to="{name: 'city', params:{id: position_id}}">
+      <router-link :to="{name: 'city', params:{id: position_id}}" v-if="position_city">
         <div class="city_show">
           <span class="city_now">{{position_city}}</span>
           <span class="go_city">
@@ -33,7 +33,7 @@
       <li>
         <el-row>
           <el-col :span="6" v-for="(hot_city, index) in hot_citys" :key="index">
-            <router-link :to="{name: 'city', params:{id: hot_city.id}}">
+            <router-link :to="{name: 'city', params:{id: hot_city.id}}" v-if="hot_city">
               <div class="grid-content bg-purple city_wrap">
                 <span class="hotCity_name">{{hot_city.name}}</span>
               </div>
@@ -53,7 +53,7 @@
           <li class="city_list">
             <el-row>
               <el-col :span="6" v-for="(city, index) in citys_msg[city_key]" :key="index">
-                <router-link :to="{name: 'city', params:{id: city.id}}">
+                <router-link :to="{name: 'city', params:{id: city.id}}" v-if="city">
                   <div class="grid-content bg-purple city_wrap">
                     <span class>{{city.name}}</span>
                   </div>

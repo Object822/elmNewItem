@@ -54,7 +54,9 @@ export default {
   data() {
     return {
       ged: "",
-      isOnline: true
+      isOnline: true,
+      user_id: "",
+      user_name: ""
     };
   },
 
@@ -94,9 +96,16 @@ export default {
     }
   },
   created() {
+    var userId;
+    if (localStorage.getItem("user_data")) {
+      let get_user = localStorage.getItem("user_data");
+      this.user_name = JSON.parse(get_user);
+      // console.log(this.user_name);
+      userId = this.user_name.user_id;
+    }
     this.$http({
       methods: "get",
-      url: "https://elm.cangdu.org/v1/users/22598/addresses"
+      url: "https://elm.cangdu.org/v1/users/"+userId+"/addresses"
     }).then(res => {
       console.log(res,'ress');
       this.ged = res.data;

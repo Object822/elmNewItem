@@ -30,7 +30,8 @@ export default {
   data() {
     return {
       cityinfo: null,
-      search: null
+      search: null,
+      cityId: ""
     };
   },
   //         watch: {
@@ -38,6 +39,10 @@ export default {
   //       this.$router.go(0);
   //     }
   //   },
+  created() {
+    let id = localStorage.getItem("cityID");
+    this.cityId = JSON.parse(id);
+  },
   methods: {
     go() {
       this.$router.go(-1);
@@ -46,7 +51,9 @@ export default {
       this.$http({
         method: "get",
         url:
-          "https://elm.cangdu.org/v1/pois?city_id=1&keyword=" +
+          "https://elm.cangdu.org/v1/pois?city_id=" +
+          this.cityId +
+          "&keyword=" +
           this.search +
           "&type=search"
       }).then(res => {
