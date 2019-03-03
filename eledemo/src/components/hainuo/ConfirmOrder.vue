@@ -12,7 +12,7 @@
           <el-row>
             <el-col :span="8">
               <div class="grid-content bg-purple head-img1" @click="go()">
-                <img src="./img/箭头.png">
+                <img src="../../../static/imgs/箭头.png">
               </div>
             </el-col>
             <el-col :span="8">
@@ -22,7 +22,7 @@
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple head-img2">
-                <img src="./img/我的 (1).png">
+                <img src="../../../static/imgs/我的 (1).png">
               </div>
             </el-col>
           </el-row>
@@ -31,7 +31,7 @@
         <router-link :to="{name:'chooseAddress'}">
           <div class="address">
             <div v-if="!isimg">
-              <img src="./img/定位.png" class="address-img1">
+              <img src="../../../static/imgs/定位.png" class="address-img1">
             </div>
             <span v-if="!user_name||!addData" class="addspan">请添加一个收货地址</span>
             <div class="title" v-else>
@@ -142,7 +142,7 @@
         <!-- 效果展示 -->
         <div class="result">
           <div class="result-1-0">
-            <img src="./img/u=1366704153,4289492387&fm=26&gp=0.jpg">
+            <img src="../../../static/imgs/u=1366704153,4289492387&fm=26&gp=0.jpg">
             <span>效果展示</span>
           </div>
           <div class="sold1"></div>

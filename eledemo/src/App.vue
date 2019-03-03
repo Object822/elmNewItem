@@ -4,9 +4,11 @@
       <keep-alive v-if="$route.meta.keepAlive">
         <router-view :key="key"/>
       </keep-alive>
-    </transition> -->
+    </transition>-->
     <transition name="router-fade" mode="out-in">
-      <router-view :key="key"></router-view>
+      <keep-alive>
+        <router-view :key="key"></router-view>
+      </keep-alive>
     </transition>
   </div>
 </template>

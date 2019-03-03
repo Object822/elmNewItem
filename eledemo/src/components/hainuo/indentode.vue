@@ -9,7 +9,7 @@
     <!-- 等待支付部分 -->
     <div class="wait">
       <div class="waitimg">
-        <img src="./img/u=1366704153,4289492387&fm=26&gp=0.jpg" alt>
+        <img src="../../../static/imgs/u=1366704153,4289492387&fm=26&gp=0.jpg" alt>
       </div>
       <div style="margin-left:0.2rem;">
         <p>等待支付</p>
@@ -25,7 +25,7 @@
     <div class="mede">
       <div style="width: 96%; padding-top:0.1rem; margin:0 auto;">
         <div class="mede1">
-          <img src="./img/u=1366704153,4289492387&fm=26&gp=0.jpg" alt>
+          <img src="../../../static/imgs/u=1366704153,4289492387&fm=26&gp=0.jpg" alt>
           <router-link :to="{name:'confirmOrder'}">
             <div class="mede1span">
               <span>我的牛肉面</span>

@@ -16,12 +16,12 @@
         <!-- 选择支付 -->
         <div class="select">
             <div class="select-1">
-                <img src="./img/支付宝.png">
+                <img src="../../../static/imgs/支付宝.png">
                 <span class="el-icon-circle-check" @click="isCol=!isCol" :class=" isCol ? 'col' : '' "></span>
             </div>
             <div class="sold"></div>
             <div class="select-2">
-                <img src="./img/微信支付.png">
+                <img src="../../../static/imgs/微信支付.png">
                 <span class="el-icon-circle-check" @click="isCol=!isCol" :class="isCol? '' : 'col' "></span>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <!-- 弹框 -->
         <transition enter-active-class="animated bounceIn ">
             <div class="pop-up" @click="pop" v-if="pop1">
-                <img src="./img/感叹号.png" class="pop-hint">
+                <img src="../../../static/imgs/感叹号.png" class="pop-hint">
                 <p class="pop-con">暂不开放支付功能</p>
                 <div class="pop-foot">确认</div>
             </div>
@@ -39,7 +39,7 @@
         <!-- 支付超时弹框 -->
         <transition enter-active-class="animated bounceIn ">
             <div class="pop-up" @click="pop2" v-if="timeout">
-                <img src="./img/感叹号.png" class="pop-hint">
+                <img src="../../../static/imgs/感叹号.png" class="pop-hint">
                 <p class="pop-con1">支付超时</p>
                 <div class="pop-foot">确认</div>
             </div>
@@ -47,7 +47,7 @@
         <!-- 当前环境无法支付 -->
         <transition enter-active-class="animated bounceIn ">
             <div class="pop-up" @click="pop4" v-if="popno">
-                <img src="./img/感叹号.png" class="pop-hint">
+                <img src="../../../static/imgs/感叹号.png" class="pop-hint">
                 <p class="pop-con2">当前环境无法支付,请打开官方App进行付款</p>
                 <router-link :to="{name:'indent'}">
                     <div class="pop-foot">确认</div>

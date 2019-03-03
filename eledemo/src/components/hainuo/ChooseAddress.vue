@@ -41,7 +41,7 @@
       </div>
       <router-link :to="{name:'register'}">
         <div class="newadd">
-          <img src="./img/添加.png">
+          <img src="../../../static/imgs/添加.png">
           <span>添加后货地址</span>
         </div>
       </router-link>

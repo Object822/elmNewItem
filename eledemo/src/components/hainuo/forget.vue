@@ -37,7 +37,7 @@
     <!-- 弹框1 -->
     <transition enter-active-class="animated bounceIn ">
       <div class="pop-name" v-if="popname">
-        <img src="./img/感叹号.png" class="pop-hint">
+        <img src="../../../static/imgs/感叹号.png" class="pop-hint">
         <p class="pop-con">{{erro_msg}}</p>
         <div class="pop-foot" @click="pop1()">确认</div>
       </div>

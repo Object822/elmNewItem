@@ -29,7 +29,7 @@
         <div class="con3">
           <span>联系电话</span>
           <input type="text" placeholder="你的手机号" v-model="phone">
-          <img src="./img/加号.png" @click="img()">
+          <img src="../../../static/imgs/加号.png" @click="img()">
         </div>
         <div class="sold" v-show="isImg" :class="isImg"></div>
         <input type="text" placeholder="备选电话" class="con3-input" v-show="isImg" :class="isImg">
@@ -58,7 +58,7 @@
       <!-- 弹框1 -->
       <transition enter-active-class="animated bounceIn ">
         <div class="pop-name" v-if="popName">
-          <img src="./img/感叹号.png" class="pop-hint">
+          <img src="../../../static/imgs/感叹号.png" class="pop-hint">
           <p class="pop-con">请输入姓名</p>
           <div class="pop-foot" @click="pop1()">确认</div>
         </div>
@@ -66,7 +66,7 @@
       <!-- 弹框2 -->
       <transition enter-active-class="animated bounceIn ">
         <div class="pop-phone" v-if="popPhone">
-          <img src="./img/感叹号.png" class="pop-hint">
+          <img src="../../../static/imgs/感叹号.png" class="pop-hint">
           <p class="pop-con">请输入电话号码</p>
           <div class="pop-foot" @click="pop1()">确认</div>
         </div>
@@ -74,7 +74,7 @@
       <!-- 弹框3 -->
       <transition enter-active-class="animated bounceIn ">
         <div class="pop-shcool" v-if="popShcool">
-          <img src="./img/感叹号.png" class="pop-hint">
+          <img src="../../../static/imgs/感叹号.png" class="pop-hint">
           <p class="pop-con">请选择地址</p>
           <div class="pop-foot" @click="pop1()">确认</div>
         </div>
@@ -82,7 +82,7 @@
       <!-- 弹框4 -->
       <transition enter-active-class="animated bounceIn ">
         <div class="pop-detailed" v-if="Detailed">
-          <img src="./img/感叹号.png" class="pop-hint">
+          <img src="../../../static/imgs/感叹号.png" class="pop-hint">
           <p class="pop-con">详细地址信息错误</p>
           <div class="pop-foot" @click="pop1()">确认</div>
         </div>
@@ -90,7 +90,7 @@
       <!-- 弹框5 -->
       <transition enter-active-class="animated bounceIn ">
         <div class="pop-label" v-if="laBel">
-          <img src="./img/感叹号.png" class="pop-hint">
+          <img src="../../../static/imgs/感叹号.png" class="pop-hint">
           <p class="pop-con">标签错误</p>
           <div class="pop-foot" @click="pop1()">确认</div>
         </div>
