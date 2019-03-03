@@ -24,5 +24,6 @@ export default {
     count: 0
   },
   // 购物车信息
-  cart_datas: []
+  cart_datas: [],
+  restaurant_id: ""
 }

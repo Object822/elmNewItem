@@ -22,7 +22,9 @@
         <swiper-slide>
           <el-row>
             <el-col :span="6" v-for="(item, index) in food_list.slice(0, 8)" :key="index">
-              <router-link :to="{name: 'food', query:{title: item.title, geohash: $store.state.geohash}}">
+              <router-link
+                :to="{name: 'food', query:{title: item.title, geohash: $store.state.geohash}}"
+              >
                 <div class="grid-content bg-purple food_wrap">
                   <img :src="base_url + item.image_url">
                   <p class="food_title">{{item.title}}</p>
@@ -35,7 +37,9 @@
           <el-row>
             <el-col :span="6" v-for="(item, index) in food_list.slice(8, 16)" :key="index">
               <!-- , geohash: $store.state.geohash -->
-              <router-link :to="{name: 'food', query:{title: item.title, geohash: $store.state.geohash}}">
+              <router-link
+                :to="{name: 'food', query:{title: item.title, geohash: $store.state.geohash}}"
+              >
                 <div class="grid-content bg-purple food_wrap">
                   <img :src="base_url + item.image_url">
                   <p class="food_title">{{item.title}}</p>
@@ -62,8 +66,10 @@
       <!-- 商家列表展示 -->
       <div class="shopLists_wrap">
         <ul class="listShow_wrap">
-            <li class="list_wrap" v-for="(list, index) in shop_list" :key="index">
-          <router-link :to="{name: 'shop', query:{geohash: $store.state.geohash,id: shop_list[index].id}}">
+          <li class="list_wrap" v-for="(list, index) in shop_list" :key="index">
+            <router-link
+              :to="{name: 'shop', query:{geohash: $store.state.geohash,id: shop_list[index].id}}"
+            >
               <div class="shop_img_list">
                 <img :src="base_url_1 + list.image_path">
               </div>
@@ -109,8 +115,8 @@
                   </h4>
                 </div>
               </div>
-          </router-link>
-            </li>
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -135,7 +141,7 @@ export default {
       food_list: [],
       shop_list: [],
       base_url: "https://fuss10.elemecdn.com",
-      base_url_1: "//elm.cangdu.org/img/",
+      base_url_1: "//elm.cangdu.org/img/"
     };
   },
   methods: {
@@ -167,13 +173,14 @@ export default {
     // 请求分类列表
     // 将经纬度字符串转化为数组
     let latitude = this.$store.state.geohash.split(",")[0];
-    let longitude = this.$store.state.geohash.split(",")[1]
+    let longitude = this.$store.state.geohash.split(",")[1];
     this.$http({
       method: "get",
       url:
         "https://elm.cangdu.org/shopping/restaurants?latitude=" +
-         latitude +
-        "&longitude=" + longitude
+        latitude +
+        "&longitude=" +
+        longitude
     }).then(res => {
       console.log(res.data);
       this.shop_list = res.data;
@@ -336,6 +343,10 @@ export default {
 }
 .brand_shop_name {
   float: left;
+  width: 2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .shop_name {
   color: black;

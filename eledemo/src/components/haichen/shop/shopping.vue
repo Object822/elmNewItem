@@ -312,6 +312,7 @@ export default {
   },
   created() {
     this.restaurant_id = this.$route.query.id;
+    this.$store.state.restaurant_id = this.$route.query.id;
     this.$http({
       method: "get",
       url:
@@ -352,10 +353,10 @@ export default {
   width: 0.2rem;
   height: 0.2rem;
   box-sizing: border-box;
-  border: 2px solid blue;
+  border: 2px solid #3190e8;
   color: white;
   border-radius: 50%;
-  background: blue;
+  background: #3190e8;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -370,8 +371,8 @@ export default {
   width: 0.2rem;
   height: 0.2rem;
   box-sizing: border-box;
-  border: 2px solid blue;
-  color: blue;
+  border: 2px solid #3190e8;
+  color: #3190e8;
   border-radius: 50%;
   background: white;
   display: flex;
@@ -413,12 +414,12 @@ export default {
   right: 0;
 }
 .check {
-  border: 1px solid blue;
-  color: blue;
+  border: 1px solid #3190e8;
+  color: #3190e8;
 }
 .specs_list > footer > div:nth-child(2) {
   color: white;
-  background: blue;
+  background: #3190e8;
   box-sizing: border-box;
   padding: 0.05rem 0.05rem;
   border-radius: 0.02rem;
@@ -483,7 +484,7 @@ export default {
   top: 0;
   bottom: 0;
   width: 1.2rem;
-  background: green;
+  background: #4cd964;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -531,7 +532,7 @@ export default {
   bottom: 0.1rem;
   width: 0.6rem;
   height: 0.6rem;
-  background: blue;
+  background: #3190e8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -565,7 +566,7 @@ export default {
   width: 0.6rem;
   padding: 0.05rem 0.05rem;
   box-sizing: border-box;
-  background: blue;
+  background: #3190e8;
   border-radius: 0.1rem;
   display: flex;
   justify-content: center;
@@ -597,7 +598,7 @@ export default {
   height: 0.2rem;
   box-sizing: border-box;
   border-radius: 50%;
-  background: blue;
+  background: #3190e8;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -613,7 +614,7 @@ export default {
   height: 0.2rem;
   box-sizing: border-box;
   border-radius: 50%;
-  background: blue;
+  background: #3190e8;
   color: white;
 }
 .one {
