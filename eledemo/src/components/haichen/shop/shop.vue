@@ -100,6 +100,7 @@ export default {
   /* justify-content: space-between;
   flex-direction: row; */
   background: white;
+  display: flex;
 }
 </style>
 
