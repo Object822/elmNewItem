@@ -163,8 +163,6 @@ export default {
 .food_img_ul {
   display: flex;
 }
-.detail > section > header > section > div span {
-}
 .el-rate {
   margin-left: -0.24rem;
   transform: scale(0.5);

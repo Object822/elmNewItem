@@ -676,11 +676,6 @@ footer {
   margin-right: 0.1rem;
   font-weight: 1000;
 }
-
-.right header section {
-}
-.right ul {
-}
 .right header {
   padding: 0.1rem 0.1rem;
   box-sizing: border-box;
