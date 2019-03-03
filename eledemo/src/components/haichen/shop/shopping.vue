@@ -5,7 +5,7 @@
     -->
     <div class="car">
       <div class="car_bottom">
-        <div class="patterning">
+        <div @click="show_car" class="patterning">
           <span v-if="this.index_car>0" class="globule">{{this.index_car}}</span>
           购物
         </div>
@@ -19,10 +19,35 @@
         <section class="gotopay">
           <span v-if="least">还查¥{{least&&calculate.all_money>0?calculate.all_money-least:least}}元</span>
         </section>
-        <section @click="submit()" v-if="(least&&calculate.all_money>least)||calculate.all_money==least" class="gotopay2">
+        <section
+          @click="submit()"
+          v-if="(least&&calculate.all_money>least)||calculate.all_money==least"
+          class="gotopay2"
+        >
           <span>去结算</span>
         </section>
-        
+        <div v-if="Object.keys(foods).length>0&&car" class="caozuo">
+          <header>
+            <div>购物车</div>
+            <div @click.stop="clear()">清空</div>
+          </header>
+          <ul :key="number" v-for="(val,number) in foods">
+            <li v-if="val&&val.number>0">
+              <section>
+                <h3>{{val.specfoods.name}}</h3>
+                <h6>{{val.specfoods.specs_name}}</h6>
+              </section>
+              <section>
+                <p>¥{{val.specfoods.price}}</p>
+                <div>
+                  <div @click="decrease(val.specfoods.food_id,val.specfoods)" class="decreas22">-</div>
+                  <div class="number22">{{val.number}}</div>
+                  <div @click="add(val.specfoods.food_id,val.specfoods)" class="add22">+</div>
+                </div>
+              </section>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <!-- 
@@ -43,8 +68,8 @@
             <section>
               <strong>{{value.name}}</strong>
               <span>{{value.description}}</span>
-              <span>...</span>
-              <div class="alter">{{value.description}}</div>
+              <span @click.stop="apprear_prompt">...</span>
+              <div v-if="aprear_prompt1" class="alter">{{value.description}}</div>
             </section>
           </header>
           <section class="content" :key="index2" v-for="(value2,index2) in value.foods">
@@ -85,7 +110,7 @@
                 <!-- 
       规格
                 -->
-                <div v-if="specs_list" class="specs_list">
+                <div v-if="specs_list&&specs_list[0].name==value2.name" class="specs_list">
                   <header>
                     <span></span>
                     <h3>{{value2.name}}</h3>
@@ -133,28 +158,67 @@ export default {
       foods: {},
       specfoods: {},
       index_car: 0,
-      calculate:{
-        all_money:0
+      calculate: {
+        all_money: 0
       },
       pei: null,
-      least: null
+      least: null,
+      aprear_prompt1: false,
+      car: false
     };
   },
   methods: {
-    submit(){
+    show_car() {
+      this.car = !this.car;
+    },
+    clear() {
+      this.specs_list = null;
+
+      this.number = 0;
+
+      this.foods = {};
+
+      this.specfoods = {};
+
+      this.index_car = 0;
+
+      this.calculate = {
+        all_money: 0
+      };
+    },
+    apprear_prompt() {
+      console.log("是");
+      this.aprear_prompt1 = true;
+      let _this = this;
+      setTimeout(function() {
+        _this.aprear_prompt1 = false;
+      }, 1000);
+    },
+    foodDetail() {
       this.$router.push({
-        name:'confirmOrder'
-      })
+        name: "foodDetail",
+        params: {}
+      });
+    },
+    submit() {
+     this.$store.state.cart_datas = localStorage.setItem("car_data", JSON.stringify(this.foods));
+      this.$router.push({
+        name: "confirmOrder",
+        params: {
+          foods: this.foods
+        }
+      });
     },
     calculate_money() {
-      let all_money=0;
+      let all_money = 0;
       if (Object.keys(this.foods).length > 0) {
         for (let key in this.foods) {
-          all_money = this.foods[key].number * this.foods[key].specfoods.price+all_money;
-          
+          all_money =
+            this.foods[key].number * this.foods[key].specfoods.price +
+            all_money;
         }
       }
-    this.calculate.all_money=all_money
+      this.calculate.all_money = all_money;
     },
     join() {
       if (
@@ -170,29 +234,26 @@ export default {
             number: 1,
             specfoods: this.specs_list[this.number]
           });
-           this.calculate_money();
-            console.log('+++4444')
+          this.calculate_money();
         } else {
           this.foods[id].number++;
-          console.log('+++++')
-           this.calculate_money();
+
+          this.calculate_money();
         }
         this.specs_list = null;
         this.number = 0;
         if (this.specfoods[name]) {
           this.specfoods[name].number++;
-            console.log('+++333')
-           this.calculate_money();
+
+          this.calculate_money();
         } else {
           this.$set(this.specfoods, name, {
             number: 1
           });
-          console.log('++++222')
-           this.calculate_money();
+
+          this.calculate_money();
         }
-          
       }
-     
     },
     decrease(id, specfoods) {
       if (this.foods[id].number == 0) {
@@ -203,6 +264,13 @@ export default {
           this.index_car == 0;
         } else {
           this.index_car--;
+        }
+      }
+      if (this.specfoods[specfoods.name]) {
+        if (this.specfoods[specfoods.name].number == 0) {
+          delete this.specfoods[specfoods.name];
+        } else {
+          this.specfoods[specfoods.name].number--;
         }
       }
       this.calculate_money();
@@ -216,11 +284,12 @@ export default {
           specfoods: specfoods1
         });
       } else {
-        console.log('家里吗')
         this.foods[id].number++;
       }
+      if (this.specfoods[specfoods.name]) {
+        this.specfoods[specfoods.name].number++;
+      }
       this.calculate_money();
-      console.log(this.foods)
     },
     select_spect(index) {
       this.number = index;
@@ -230,9 +299,9 @@ export default {
       if (!this.specs_list) {
         this.specs_list = specfoods;
       }
+      console.log(this.specs_list, "搜索");
 
       this.$emit("call_back", specfoods);
-      console.log("发送了吗到底");
     },
     disappear(id) {
       this.specs_list = null;
@@ -267,6 +336,82 @@ export default {
 };
 </script>
 <style scoped>
+.caozuo li > section:nth-child(1) {
+  flex: 4;
+  overflow: hidden;
+}
+.caozuo li > section:nth-child(2) > p {
+  display: flex;
+  align-items: center;
+  color: orange;
+  font-size: 0.18rem;
+  font-weight: 700;
+  margin-right: 0.3rem;
+}
+.add22 {
+  width: 0.2rem;
+  height: 0.2rem;
+  box-sizing: border-box;
+  border: 2px solid blue;
+  color: white;
+  border-radius: 50%;
+  background: blue;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.number22 {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 0.1rem;
+}
+.decreas22 {
+  width: 0.2rem;
+  height: 0.2rem;
+  box-sizing: border-box;
+  border: 2px solid blue;
+  color: blue;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 0.1rem;
+}
+.caozuo li > section:nth-child(2) > div {
+  display: flex;
+  align-items: center;
+}
+.caozuo li > section:nth-child(2) {
+  flex: 3;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+}
+.caozuo li {
+  width: 100%;
+  height: 0.7rem;
+  background: white;
+  box-sizing: border-box;
+  padding: 0.1rem 0.1rem;
+  display: flex;
+}
+.caozuo > header {
+  width: 100%;
+  height: 0.4rem;
+  background: #eceff1;
+  box-sizing: border-box;
+  padding: 0.1rem 0.1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.caozuo {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0;
+  right: 0;
+}
 .check {
   border: 1px solid blue;
   color: blue;
@@ -394,6 +539,7 @@ export default {
   border: 0.04rem solid #444;
   box-sizing: border-box;
   border-radius: 100%;
+  z-index: 800;
 }
 .car_bottom {
   height: 0.5rem;

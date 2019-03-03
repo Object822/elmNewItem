@@ -22,5 +22,7 @@ export default {
   user_msg: {
     usr_name: [],
     count: 0
-  }
+  },
+  // 购物车信息
+  cart_datas: []
 }

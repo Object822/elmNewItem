@@ -63,7 +63,7 @@ export default {
     this.foods = this.$route.params.foods;
     this.image = this.$route.params.image;
     this.least = this.$route.params.least;
-
+    console.log('急急急')
     console.log(this.$route);
   },
   methods: {

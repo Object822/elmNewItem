@@ -42,6 +42,7 @@ import Invoice from '../components/hainuo/invoice.vue'
 import Payment from '../components/hainuo/payment.vue'
 import Register from '../components/hainuo/register.vue'
 import Searchcc from '../components/hainuo/searchcc.vue'
+import shop_detail from '../components/haichen/shop/shopDetail.vue'
 
 
 
@@ -213,6 +214,10 @@ export default new Router({
         path: "/shop/foodDetail",
         name: "foodDetail",
         component: FoodDetail
+      },{
+        path: "/shop/shopDetail",
+        name: "shop_detail",
+        component: shop_detail
       }]
     },
     // {
