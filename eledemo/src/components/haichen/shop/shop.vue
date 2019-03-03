@@ -78,8 +78,8 @@ export default {
   flex-direction: column;
 }
 .blue {
-  color: blue;
-  border-bottom: 0.02rem solid blue;
+  color: #3190e8;
+  border-bottom: 0.02rem solid #3190e8;
 }
 .none {
   color: black;

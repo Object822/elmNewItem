@@ -33,7 +33,7 @@
             <div v-if="!isimg">
               <img src="./img/定位.png" class="address-img1">
             </div>
-            <span v-if="!user_name" class="addspan">请添加一个收货地址</span>
+            <span v-if="!user_name||!addData" class="addspan">请添加一个收货地址</span>
             <div class="title" v-else>
               <div v-if="content">
                 <div class="title-top">
@@ -193,6 +193,17 @@
             </div>
           </router-link>
         </div>
+        <!-- 弹框 -->
+        <transition name="show" enter-active-class="animated heartBeat">
+          <div class="prompt_wrap" v-if="show_erro_MSG">
+            <div class="tip_icon">
+              <span></span>
+              <span></span>
+            </div>
+            <p class="alert_text">{{res_erro_msg}}</p>
+            <button class="OK_btn" @click="suer_btn()">确认</button>
+          </div>
+        </transition>
         <!-- foot -->
         <div class="foot">
           <p class="foot1">待支付￥14532
@@ -229,10 +240,16 @@ export default {
       address_id: "",
       restaurant_id: "",
       entities: "",
-      user_name: ""
+      user_name: "",
+      res_erro_msg: "",
+      show_erro_MSG: false,
+      car_data: ""
     };
   },
   methods: {
+    suer_btn() {
+      this.show_erro_MSG = false;
+    },
     show() {
       this.show3 = !this.show3;
       this.maskingclass = "masking";
@@ -272,26 +289,36 @@ export default {
     },
     quer() {
       if (this.user_name) {
-          console.log(33333);
-        this.$http({
-          methods: "post",
-          url:
-            "https://elm.cangdu.org/v1/users/" +
-            this.user_name.user_id +
-            "/carts/:cart_id/orders",
-          data: {
-            cart_id: this.cart_id,
-            address_id: this.address_id,
-            restaurant_id: this.restaurant_id,
-            entities: this.entities
-          }.then(res => {
-            // console.log(res);
-            console.log("看看",res.data);
-            this.$router.push({
-              name: "payment"
-            });
-          })
-        });
+        if (this.addData) {
+          //   console.log(33333);
+          //   this.$http({
+          //     methods: "post",
+          //     url:
+          //       "https://elm.cangdu.org/v1/users/" +
+          //       this.user_name.user_id +
+          //       "/carts/1/orders",
+          //     data: {
+          //       address_id: this.address_id,
+          //       restaurant_id: this.$store.state.restaurant_id,
+          //       entities: this.entities
+          //     }.then(res => {
+          //       // console.log(res);
+          //       console.log("看看", res.data);
+          //       this.$router.push({
+          //         name: "payment"
+          //       });
+          //     })
+          //   });
+          this.$router.push({
+            name: "payment"
+          });
+        } else {
+          this.res_erro_msg = "请填写地址!";
+          this.show_erro_MSG = true;
+        }
+      } else {
+        this.res_erro_msg = "请登录!";
+        this.show_erro_MSG = true;
       }
     }
   },
@@ -301,6 +328,9 @@ export default {
     }
   },
   created() {
+    //   接收本地的购物信息
+    this.car_data = JSON.parse(localStorage.getItem("car_data"));
+    console.log(this.car_data);
     var userId;
     if (localStorage.getItem("user_data")) {
       let get_user = localStorage.getItem("user_data");
@@ -310,10 +340,12 @@ export default {
     }
     this.$http({
       methods: "get",
-      url: "https://elm.cangdu.org/v1/users/"+userId+"/addresses"
+      url: "https://elm.cangdu.org/v1/users/" + userId + "/addresses"
     }).then(res => {
       console.log(res);
-      this.addData = res.data;
+      if (res.data.length > 0) {
+        this.addData = res.data;
+      }
     });
     this.content = this.$route.params.con;
     console.log(this.content);
@@ -354,6 +386,72 @@ export default {
 </script>
 
 <style scoped>
+/* 弹框样式 */
+.prompt_wrap {
+  display: flex;
+  width: 2.81rem;
+  height: 1.85rem;
+  background: #fff;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.1rem;
+  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  margin-top: -0.92rem;
+  left: 50%;
+  margin-left: -1.4rem;
+  overflow: hidden;
+  z-index: 11;
+}
+
+.icon-gantanhao {
+  font-size: 1rem;
+  color: #f8cb86;
+}
+.prompt_wrap p {
+  font-size: 0.18rem;
+}
+.OK_btn {
+  width: 100%;
+  height: 0.42rem;
+  background: #4cd964;
+  border: none;
+  outline: none;
+  position: absolute;
+  bottom: 0;
+  font-size: 0.18rem;
+  font-weight: bolder;
+  color: #fff;
+}
+/* 感叹号样式 */
+.prompt_wrap .tip_icon {
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 0.015rem solid #f8cb86;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0.2rem 0;
+}
+.prompt_wrap .tip_icon span:first-child {
+  display: inline-block;
+  width: 0.03rem;
+  height: 0.35rem;
+  background-color: #f8cb86;
+  margin-bottom: 0.05rem;
+}
+.prompt_wrap .tip_icon span:last-child {
+  display: inline-block;
+  width: 0.04rem;
+  height: 0.04rem;
+  border: 1px;
+  border-radius: 50%;
+  margin-top: 0.02rem;
+  background-color: #f8cb86;
+}
 .header {
   background-color: #f5f5f5;
   width: 96%;

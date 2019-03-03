@@ -95,6 +95,17 @@
           <div class="pop-foot" @click="pop1()">确认</div>
         </div>
       </transition>
+      <!-- 弹框 -->
+      <transition name="show" enter-active-class="animated heartBeat">
+        <div class="prompt_wrap" v-if="show_erro_MSG">
+          <div class="tip_icon">
+            <span></span>
+            <span></span>
+          </div>
+          <p class="alert_text">{{res_erro_msg}}</p>
+          <button class="OK_btn" @click="suer_btn">确认</button>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -117,7 +128,9 @@ export default {
       Detailed: false,
       laBel: false,
       userId: "",
-      geohash:""
+      geohash: "",
+      res_erro_msg: "",
+      show_erro_MSG: false
     };
   },
   computed: {
@@ -126,6 +139,9 @@ export default {
     // }
   },
   methods: {
+    suer_btn() {
+      this.show_erro_MSG = false;
+    },
     img() {
       this.isImg = true;
     },
@@ -143,7 +159,7 @@ export default {
         this.Detailed = true;
       } else if (this.label == "") {
         this.laBel = true;
-      } else {
+      } else if (this.userId) {
         this.$http({
           method: "POST",
           url: "https://elm.cangdu.org/v1/users/" + this.userId + "/addresses",
@@ -173,6 +189,9 @@ export default {
           //     this.res_erro_msg = res.data.message;
           //   }
         });
+      } else {
+        this.res_erro_msg = "请登录!";
+        this.show_erro_MSG = true;
       }
     },
     pop1() {
@@ -217,6 +236,72 @@ export default {
 </script>
 
 <style scoped>
+/* 弹框样式 */
+.prompt_wrap {
+  display: flex;
+  width: 2.81rem;
+  height: 1.85rem;
+  background: #fff;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.1rem;
+  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  margin-top: -0.92rem;
+  left: 50%;
+  margin-left: -1.4rem;
+  overflow: hidden;
+  z-index: 11;
+}
+
+.icon-gantanhao {
+  font-size: 1rem;
+  color: #f8cb86;
+}
+.prompt_wrap p {
+  font-size: 0.18rem;
+}
+.OK_btn {
+  width: 100%;
+  height: 0.42rem;
+  background: #4cd964;
+  border: none;
+  outline: none;
+  position: absolute;
+  bottom: 0;
+  font-size: 0.18rem;
+  font-weight: bolder;
+  color: #fff;
+}
+/* 感叹号样式 */
+.prompt_wrap .tip_icon {
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 0.015rem solid #f8cb86;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0.2rem 0;
+}
+.prompt_wrap .tip_icon span:first-child {
+  display: inline-block;
+  width: 0.03rem;
+  height: 0.35rem;
+  background-color: #f8cb86;
+  margin-bottom: 0.05rem;
+}
+.prompt_wrap .tip_icon span:last-child {
+  display: inline-block;
+  width: 0.04rem;
+  height: 0.04rem;
+  border: 1px;
+  border-radius: 50%;
+  margin-top: 0.02rem;
+  background-color: #f8cb86;
+}
 .header {
   width: 100%;
   position: fixed;
