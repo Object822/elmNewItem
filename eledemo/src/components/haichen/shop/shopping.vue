@@ -5,7 +5,12 @@
     -->
     <div class="car">
       <div class="car_bottom">
-        <div @click="show_car" class="patterning">
+        <div
+          @click="show_car"
+          id="patterning"
+          ref="show_car"
+          :class="isActive? 'animated bounceIn 1000ms':''"
+        >
           <span v-if="this.index_car>0" class="globule">{{this.index_car}}</span>
           购物
         </div>
@@ -42,7 +47,7 @@
                 <div>
                   <div @click="decrease(val.specfoods.food_id,val.specfoods)" class="decreas22">-</div>
                   <div class="number22">{{val.number}}</div>
-                  <div @click="add(val.specfoods.food_id,val.specfoods)" class="add22">+</div>
+                  <div @click="add1(val.specfoods.food_id,val.specfoods)" class="add22">+</div>
                 </div>
               </section>
             </li>
@@ -104,7 +109,10 @@
                 <div
                   v-if="foods[value2.specfoods[0].food_id]&&foods[value2.specfoods[0].food_id].number>0"
                 >{{foods[value2.specfoods[0].food_id].number}}</div>
-                <div class="one_child3" @click="add(value2.specfoods[0].food_id,value2.specfoods)">+</div>
+                <div
+                  class="one_child3"
+                  @click="add($event, value2.specfoods[0].food_id,value2.specfoods)"
+                >+</div>
               </section>
               <section class="lot" v-if="value2.specfoods.length>1">
                 <div
@@ -151,6 +159,7 @@
         </li>
       </ul>
     </div>
+    <div ref="ball" class="ball"></div>
   </div>
 </template>
 <script>
@@ -171,30 +180,30 @@ export default {
       least: null,
       aprear_prompt1: false,
       car: false,
-      title_index: 0
+      title_index: 0,
+      isActive: false
     };
   },
   methods: {
     imgScroll() {
-    let clientHeight = this.$refs.left.clientHeight
-   let ping= (this.$refs.left.scrollHeight-clientHeight+50)/(this.$refs.left_son.length-1)
- 
-      for (let t = 0; t < this.$refs.right_son.length; t++) {
-     
-       
-        if (t != 0) {
-        
-          if (
-            this.$refs.right_son[t-1].offsetTop-164 < this.$refs.right.scrollTop&&this.$refs.right.scrollTop<this.$refs.right_son[t].offsetTop-164
-          ) {
-              
-        this.$refs.left.scrollTop=ping*(t-1)
-        // console.log(this.$refs.left.scrollTop,'truescroll')
-           this.title_index=t-1;
-              // break
-          } 
-        } else {
+      let clientHeight = this.$refs.left.clientHeight;
+      let ping =
+        (this.$refs.left.scrollHeight - clientHeight + 50) /
+        (this.$refs.left_son.length - 1);
 
+      for (let t = 0; t < this.$refs.right_son.length; t++) {
+        if (t != 0) {
+          if (
+            this.$refs.right_son[t - 1].offsetTop - 164 <
+              this.$refs.right.scrollTop &&
+            this.$refs.right.scrollTop < this.$refs.right_son[t].offsetTop - 164
+          ) {
+            this.$refs.left.scrollTop = ping * (t - 1);
+            // console.log(this.$refs.left.scrollTop,'truescroll')
+            this.title_index = t - 1;
+            // break
+          }
+        } else {
         }
       }
     },
@@ -313,7 +322,46 @@ export default {
       }
       this.calculate_money();
     },
-    add(id, specfoods) {
+    add(event, id, specfoods) {
+      let ball = this.$refs.ball.cloneNode(true);
+
+      let height = document.documentElement.clientHeight;
+      let y = event.pageY;
+
+      let newHeight = height - y;
+      ball.style.left = event.pageX - 30 + "px";
+      ball.style.bottom = newHeight + "px";
+      ball.style.transition =
+        "left .5s cubic-bezier(1,1,1,1),bottom  .5s cubic-bezier(.99,0,1,.83)";
+      event.target.appendChild(ball);
+      // ball.style
+      setTimeout(() => {
+        ball.style.left = "40px";
+        ball.style.bottom = "40px";
+      }, 10);
+      ball.style.display = "block";
+      ball.addEventListener("transitionend", () => {
+        ball.remove();
+        this.isActive = true;
+        this.$refs.show_car.addEventListener("animationend", () => {
+          this.isActive = false;
+        });
+      });
+      this.add1(id, specfoods);
+    },
+    select_spect(index) {
+      this.number = index;
+    },
+    select(id, specfoods) {
+      console.log(specfoods, id);
+      if (!this.specs_list) {
+        this.specs_list = specfoods;
+      }
+      console.log(this.specs_list, "搜索");
+
+      this.$emit("call_back");
+    },
+    add1(id, specfoods) {
       this.index_car++;
       let specfoods1 = specfoods[0];
       if (!this.foods[id]) {
@@ -329,52 +377,113 @@ export default {
       }
       this.calculate_money();
     },
-    select_spect(index) {
-      this.number = index;
-    },
-    select(id, specfoods) {
-      console.log(specfoods, id);
-      if (!this.specs_list) {
-        this.specs_list = specfoods;
-      }
-      console.log(this.specs_list, "搜索");
 
-      this.$emit("call_back", specfoods);
-    },
     disappear(id) {
       this.specs_list = null;
       this.index = 0;
       this.number2 = 0;
       this.$forceUpdate();
+      this.$emit("call_back");
+    }
+  },
+  beforeDestroy() {
+    if (this.$store.state.foods[this.restaurant_id]) {
+      this.$store.state.foods[this.restaurant_id] = {
+        restaurant_id: this.restaurant_id,
+        restaurant_data: this.restaurant_data,
+        specs_list: this.specs_list,
+        number: this.number,
+        foods: this.foods,
+        specfoods: this.specfoods,
+        index_car: this.index_car,
+        calculate: this.calculate,
+        pei: this.pei,
+        least: this.least,
+        aprear_prompt1: this.aprear_prompt1,
+        car: this.car,
+        title_index: this.title_index
+      };
+    } else {
+      this.$store.state.foods[this.restaurant_id] = {
+        restaurant_id: this.restaurant_id,
+        restaurant_data: this.restaurant_data,
+        specs_list: this.specs_list,
+        number: this.number,
+        foods: this.foods,
+        specfoods: this.specfoods,
+        index_car: this.index_car,
+        calculate: this.calculate,
+        pei: this.pei,
+        least: this.least,
+        aprear_prompt1: this.aprear_prompt1,
+        car: this.car,
+        title_index: this.title_index
+      };
     }
   },
   created() {
-    this.restaurant_id = this.$route.query.id;
-    this.$store.state.restaurant_id = this.$route.query.id;
-    this.$http({
-      method: "get",
-      url:
-        "  https://elm.cangdu.org/shopping/v2/menu?restaurant_id=" +
-        this.restaurant_id
-    }).then(res => {
-      console.log(res);
-      this.restaurant_data = res.data;
-    });
+    if (this.$store.state.foods[this.$route.query.id]) {
+      this.restaurant_id = this.$store.state.foods[
+        this.$route.query.id
+      ].restaurant_id;
+      this.restaurant_data = this.$store.state.foods[
+        this.$route.query.id
+      ].restaurant_data;
+      this.specs_list = this.$store.state.foods[
+        this.$route.query.id
+      ].specs_list;
+      this.number = this.$store.state.foods[this.$route.query.id].number;
+      this.foods = this.$store.state.foods[this.$route.query.id].foods;
+      this.specfoods = this.$store.state.foods[this.$route.query.id].specfoods;
+      this.index_car = this.$store.state.foods[this.$route.query.id].index_car;
+      this.calculate = this.$store.state.foods[this.$route.query.id].calculate;
+      this.pei = this.$store.state.foods[this.$route.query.id].pei;
+      this.least = this.$store.state.foods[this.$route.query.id].least;
+      this.aprear_prompt1 = this.$store.state.foods[
+        this.$route.query.id
+      ].aprear_prompt1;
+      this.car = this.$store.state.foods[this.$route.query.id].car;
+      this.title_index = this.$store.state.foods[
+        this.$route.query.id
+      ].title_index;
+      console.log(this.index_car, this.$store.state.foods);
+    } else {
+      this.restaurant_id = this.$route.query.id;
+      this.$store.state.restaurant_id = this.$route.query.id;
+      this.$http({
+        method: "get",
+        url:
+          "  https://elm.cangdu.org/shopping/v2/menu?restaurant_id=" +
+          this.restaurant_id
+      }).then(res => {
+        this.restaurant_data = res.data;
+      });
 
-    this.$http({
-      url: " https://elm.cangdu.org/shopping/restaurant/" + this.restaurant_id,
-      method: "get"
-    }).then(res => {
-      console.log(res, "kkk");
-      this.pei = res.data.float_delivery_fee;
-      this.least = res.data.float_minimum_order_amount;
-      // this.least2 = res.data.float_minimum_order_amount;
-    });
+      this.$http({
+        url:
+          " https://elm.cangdu.org/shopping/restaurant/" + this.restaurant_id,
+        method: "get"
+      }).then(res => {
+        this.pei = res.data.float_delivery_fee;
+        this.least = res.data.float_minimum_order_amount;
+      });
+    }
   },
   mounted() {}
 };
 </script>
 <style scoped>
+.ball {
+  width: 0.2rem;
+  height: 0.2rem;
+  background: #3190e8;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 0.3rem;
+  left: 0.4rem;
+  z-index: 1111;
+  display: none;
+}
 .title_name {
   background: white;
   box-sizing: border-box;
@@ -569,7 +678,7 @@ export default {
   left: 0.4rem;
   bottom: 0.3rem;
 }
-.patterning {
+#patterning {
   position: absolute;
   left: 0.2rem;
   bottom: 0.1rem;

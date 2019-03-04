@@ -25,5 +25,8 @@ export default {
   },
   // 购物车信息
   cart_datas: [],
-  restaurant_id: ""
+  restaurant_id: "",
+
+  // 购物信息
+  foods: {}
 }

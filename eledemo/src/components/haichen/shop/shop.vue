@@ -1,5 +1,5 @@
 <template>
-  <div v-on:call_back="call">
+  <div>
     <!-- 
       specification mask
     -->
@@ -23,7 +23,7 @@
           <comment></comment>
         </keep-alive>
         <keep-alive v-else>
-          <shopping></shopping>
+          <shopping v-on:call_back="call(spect)"></shopping>
         </keep-alive>
       </div>
     </keep-alive>
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       index: 0,
-      spect: null
+      spect: false
     };
   },
   methods: {
@@ -45,9 +45,11 @@ export default {
       this.index = index;
       console.log(this.index);
     },
-    call(spect) {
-      console.log("你哈");
-      this.spect = spect;
+    call() {
+      // console.log("你哈");
+      // console.log(11111);
+      // console.log(spect);
+      this.spect = !this.spect;
     }
   },
   components: {
