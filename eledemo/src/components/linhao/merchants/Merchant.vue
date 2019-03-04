@@ -89,7 +89,7 @@ export default {
   font-size: 0.2rem;
 }
 .navigation .navigation_text {
-  font-size: 0.045rem;
+  font-size: 0.12rem;
 }
 .router-link-active .iconfont {
   color: #3190e8 !important;
