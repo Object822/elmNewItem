@@ -187,7 +187,7 @@ export default {
 }
 .public_inp {
   width: 100%;
-  /* height: 0.48rem; */
+  height: 0.48rem;
   background: #fff;
   padding: 0.1rem 0.2rem;
   border-bottom: 0.01rem solid #f1f1f1;

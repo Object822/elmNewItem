@@ -16,6 +16,8 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import './assets/icon/iconfont.css'
 import animated from 'animate.css'
+import FastClick from 'fastclick'
+
 
 Vue.use(iView);
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
