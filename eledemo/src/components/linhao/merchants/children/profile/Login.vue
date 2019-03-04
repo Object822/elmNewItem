@@ -64,7 +64,7 @@ export default {
       code: "",
       username: "",
       password: "",
-      codeUser: "",
+      codeUser: ""
     };
   },
   created() {
@@ -187,10 +187,12 @@ export default {
 }
 .public_inp {
   width: 100%;
-  height: 0.48rem;
+  /* height: 0.48rem; */
   background: #fff;
   padding: 0.1rem 0.2rem;
   border-bottom: 0.01rem solid #f1f1f1;
+  display: flex;
+  justify-content: space-between;
 }
 .public_inp input {
   font-size: 0.18rem;
@@ -199,7 +201,7 @@ export default {
 }
 .login_wrap .verification_code_wrap {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 .verification_code {
   width: 0.82rem;
@@ -214,9 +216,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   margin-left: 0.1rem;
+  width: .7rem;
 }
 .code_wrap p {
-  width: 0.38rem;
+  width: 100%;
   font-size: 0.12rem;
 }
 .change_code {
@@ -228,6 +231,7 @@ export default {
   margin-left: 0.2rem;
   line-height: 0.3rem;
   color: red;
+  font-size: .10rem;
 }
 .go_btn_wrap {
   text-align: center;
@@ -240,7 +244,7 @@ export default {
   outline: none;
   border-radius: 0.05rem;
   margin-bottom: 0.3rem;
-  font-size: .16rem;
+  font-size: 0.16rem;
   color: #fff;
 }
 .res_psw {
@@ -317,7 +321,7 @@ export default {
   background-color: #f8cb86;
 }
 .el-switch {
-  margin-left: .72rem;
+  margin-left: 0.72rem;
 }
 </style>
 

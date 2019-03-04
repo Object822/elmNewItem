@@ -344,7 +344,7 @@ export default {
   margin: 0.1rem auto;
   border-radius: 0.03rem;
   background-color: #4cd964;
-  position: absolute;
+  position: flex;
   bottom: 0.1rem;
   left: 0.2rem;
 }
