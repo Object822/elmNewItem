@@ -94,13 +94,14 @@ export default {
   box-sizing: border-box;
   font-weight: 1000;
   font-size: 0.15rem;
+  width: 50%;
 }
 .option {
   display: -webkit-box;
   /* justify-content: space-between;
   flex-direction: row; */
   background: white;
-  display: flex;
+  /* display: flex; */
 }
 </style>
 
