@@ -25,6 +25,12 @@ Vue.use(VueAxios, axios)
 Vue.use(animated)
 Vue.config.productionTip = false
 
+if ('addEventListener' in document) {
+	document.addEventListener('DOMContentLoaded', function() {
+		FastClick.attach(document.body);
+	}, false);
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
