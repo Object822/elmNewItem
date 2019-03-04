@@ -224,6 +224,9 @@ export default {
   font-weight: bolder;
 }
 /* 搜索样式 */
+.input_wrap {
+  width: 100%;
+}
 .search_wrap {
   width: 100%;
   /* border-top: 0.01rem solid #e4e4e4; */
@@ -240,7 +243,7 @@ export default {
   background: #fff;
 }
 .search_wrap .search_input {
-  width: 78%;
+  width: 74%;
   font-size: 0.15rem;
   text-indent: 0.1rem;
   padding: 0.06rem 0;
@@ -252,7 +255,7 @@ export default {
   font-weight: bold;
 }
 .search_wrap .search_button {
-  width: 21%;
+  width: 20%;
   height: 0.35rem;
   background: #3190e8;
   border: none;
