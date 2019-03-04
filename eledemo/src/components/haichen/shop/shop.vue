@@ -98,10 +98,7 @@ export default {
 }
 .option {
   display: -webkit-box;
-  /* justify-content: space-between;
-  flex-direction: row; */
   background: white;
-  /* display: flex; */
 }
 </style>
 
