@@ -153,7 +153,56 @@ export default {
     // 使用全局变量存储传值过来的经纬度
     this.$store.state.geohash = this.$route.query.geohash;
     // console.log(this.$route.query.geohash);
-    // 请求定位的具体位置
+    // // 请求定位的具体位置
+    // this.$http({
+    //   method: "get",
+    //   url: "https://elm.cangdu.org/v2/pois/" + this.$store.state.geohash
+    // }).then(res => {
+    //   console.log("定位的具体信息", res.data);
+    //   //   获取定位后取得的定位信息名字
+    //   this.position = res.data.name;
+    // });
+    // // 请求食品分类列表
+    // this.$http({
+    //   method: "get",
+    //   url: "https://elm.cangdu.org/v2/index_entry"
+    // }).then(res => {
+    //   this.food_list = res.data;
+    //   console.log("食品分类列表", this.food_list);
+    // });
+    // // 请求分类列表
+    // // 将经纬度字符串转化为数组
+    // let latitude = this.$store.state.geohash.split(",")[0];
+    // let longitude = this.$store.state.geohash.split(",")[1];
+    // this.$http({
+    //   method: "get",
+    //   url:
+    //     "https://elm.cangdu.org/shopping/restaurants?latitude=" +
+    //     latitude +
+    //     "&longitude=" +
+    //     longitude
+    // }).then(res => {
+    //   console.log(res.data);
+    //   this.shop_list = res.data;
+    //   console.log("分类列表", this.shop_list);
+    // });
+
+    // 进入页面看看有没有用户登录缓存
+    let get_user = localStorage.getItem("user_data");
+    this.$store.state.user_msg = JSON.parse(get_user);
+    console.log(this.$store.state.user_msg);
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper;
+    }
+  },
+  mounted() {
+    // current swiper instance
+    // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
+    // console.log("this is current swiper instance object", this.swiper);
+    // this.swiper.slideTo(1, 1000, false);
+     // 请求定位的具体位置
     this.$http({
       method: "get",
       url: "https://elm.cangdu.org/v2/pois/" + this.$store.state.geohash
@@ -187,21 +236,6 @@ export default {
       console.log("分类列表", this.shop_list);
     });
 
-    // 进入页面看看有没有用户登录缓存
-    let get_user = localStorage.getItem("user_data");
-    this.$store.state.user_msg = JSON.parse(get_user);
-    console.log(this.$store.state.user_msg);
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.swiper;
-    }
-  },
-  mounted() {
-    // current swiper instance
-    // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-    // console.log("this is current swiper instance object", this.swiper);
-    // this.swiper.slideTo(1, 1000, false);
   }
 };
 </script>
