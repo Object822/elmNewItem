@@ -495,6 +495,7 @@ export default {
     }
   },
   created() {
+    console.log('测试');
     // 使用全局变量存储传值过来的经纬度
     this.$store.state.geohash = this.$route.query.geohash;
     // 将经纬度字符串转化为数组
